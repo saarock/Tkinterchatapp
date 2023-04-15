@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "daphne",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'users',
+    "django.contrib.sites",
+  
+
 ]
 
 MIDDLEWARE = [
@@ -68,7 +72,13 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'myapp.wsgi.application'
+ASGI_APPLICATION = 'myapp.asgi.application'
+# ASGI_APPLICATION = 'myapp.routing.application'
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    },
+}
 
 
 # Database
@@ -132,4 +142,14 @@ STATIC_URL = 'static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# from django.core.asgi import get_asgi_application
+# from channels.routing import ProtocolTypeRouter, URLRouter
+# from users.routing import websocket_urlpatterns
+
+# application = ProtocolTypeRouter({
+#     "http": get_asgi_application(),
+#     "websocket": URLRouter(websocket_urlpatterns)
+# })
+
+

@@ -8,6 +8,8 @@ from django.contrib.auth import authenticate
 
 from rest_framework_simplejwt.tokens import RefreshToken
 
+
+
 # Create your views here.
 @api_view(['POST'])
 def sing_up(request):
