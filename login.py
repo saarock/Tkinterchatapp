@@ -1,7 +1,11 @@
 from tkinter import *
 import tkinter as tk
 import requests as rq
+import socketio
 import json
+import asyncio
+import websocket
+
 # import speech_recognition as sr
 
 
@@ -19,8 +23,45 @@ root.title("Singup")
 
 
 
+# For home
+my_chat_frame = ''
+def for_home():
+    if my_chat_frame:
+        my_chat_frame.pack_forget()
+    else:
+        print('No pack')    
+    # my_chat_frame.pack_forget()
+    # print(socketio.gethostname)
+
+    print('Starting')
+    ws = websocket.WebSocket()
+    ws.connect("ws://localhost:8000/ws/my_consumer/")
+    ws.send("Hello aaysh")
+    global my_name
+    welcome_message.config(text="Chat WITH YOUR FRIENDS CAREFULLY. PLEASED NOTE! CHAT IN POPER MANNER", font=1000,background='blue', fg='white' , borderwidth=12, border=12  )
+    welcome_message.pack()
+    my_name = Label(text='AAaysh', width=12)
+    my_name.pack()
+    print("Clciked")
+
+
+
+def for_chat():
+    my_name.pack_forget()
+    
+    my_chat = Label(text="Chat majaalya", width=12)
+
+    my_chat.pack()
+    global my_chat_frame
+    my_chat_frame= Frame(bg="grey", borderwidth=6, relief=SUNKEN)
+    # Fill y help to fill all the y space
+    my_chat_frame.pack(fill='y')
+    text = Label(my_chat_frame,  text='aayush')
+    text.pack(padx=1000, pady=1000)
+
+
+
 def home_page_for_chat():
-    root.title("Chat")
     label_title.pack_forget()
     label_name.pack_forget()
     label_email.pack_forget()
@@ -36,6 +77,29 @@ def home_page_for_chat():
     for_singin_button.pack_forget()
 
 
+# Starting the chat window or we can say new window after user sucessful the login level;
+    try:
+        # pass
+    #   chat_window = tk.Tk()
+    #   root.destroy()
+
+     
+
+      my_frame= Frame(bg="grey", borderwidth=6, relief=SUNKEN)
+      my_frame.pack(side=LEFT, fill='y')
+    #   l = Label( my_frame, text='Chat')
+    #   l.pack(pady=142, padx=100)
+
+      home_button = Button(my_frame,  text='Home', bg='black', fg='white', command=for_home, width=10)
+      home_button.pack(padx=30)
+
+      chat_button = Button(my_frame, text="Chat", fg="white", bg='black', command=for_chat, width=10)
+      chat_button.pack(padx=30, pady=5)
+      for_home()
+
+
+    except Exception as e:
+        print(e, "This is the error")  
 
 
 
@@ -144,6 +208,8 @@ def page2():
     response = session.post(url, data=json.dumps(users_data), timeout=10, headers=headers)
 
     if response.status_code == 200:
+        # print(response.text)
+        print(response.json)
         print("Sucessfulll")
         root.title('Singin')
         label_title.pack_forget()
@@ -159,6 +225,7 @@ def page2():
         welcome_message.pack_forget()
     else: 
         print("Milyana")    
+      
 
 
     # Un poack the UI from the window
