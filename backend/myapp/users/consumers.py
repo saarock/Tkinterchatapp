@@ -12,6 +12,11 @@ class ChatConsumer(WebsocketConsumer):
     def receive(self, text_data):
         # return super().receive(text_data)    
         print(text_data, 'This is messgae')  
+
+    
+    def chat_message(self, event):
+        message = event['message']
+        self.send(text_data=json.dumps(message))
      
 
     def disconnect(self, close_code):
