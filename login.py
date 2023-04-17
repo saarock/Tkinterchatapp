@@ -44,6 +44,12 @@ def for_home():
     my_name.pack()
     print("Clciked")
 
+     
+
+def on_message(self, ws, message):
+        message = json.loads(message)
+        self.message_label.configure(text=message['text'])
+
 
 
 def for_chat():
