@@ -5,10 +5,11 @@ import json
 from django.contrib.auth.models import User
 # from django.contrib.admin import user
 from django.contrib.auth import authenticate
-
-from rest_framework_simplejwt.tokens import RefreshToken
-
-
+from users import models
+from django.http import JsonResponse
+# from rest_framework_simplejwt.tokens import RefreshToken
+from django.views.decorators.csrf import csrf_exempt
+from django.core import serializers
 
 # Create your views here.
 @api_view(['POST'])
@@ -65,3 +66,12 @@ def sing_in(request):
 
 # def get_allthe_users(request):
 #    pass
+
+@csrf_exempt
+def get_message(request):
+   print('IIIIIIIIIIIIIIIIIII AMMMMMMMMMMMMMMMMMMMMMMMMMMM RUNNNNNNNNNNNNNNNNNNNNNNiIIIIIIIIIIII NGGGGGGGGG')
+   message_all = models.Messages.objects.all()
+   print(message_all, 'IU am from the view')
+   print(message_all.values(), 'IU am from the view')
+   return JsonResponse({'status': 'success', 'message': list(message_all.values())})
+   
