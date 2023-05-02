@@ -21,29 +21,36 @@ root = Tk()
 root.title("Singup")
 
 global track_the_chatpage, track_the_homepage
-track_the_homepage = False
+track_the_homepage = True
 track_the_chatpage = True
+one_time_one_message = True
 # For voice recogination;
 # for index, name in enumerate(sr.Microphone.list_microphone_names()):
 #     print("Microphone with name \"{1}\" found for `Microphone(device_index={0})`".format(index, name))
 # global my_chat_frame
 
 def on_message(ws, message):
-    print("WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL")
-    print(message)
+   print("WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL")
+   print(message)
+   global one_time_one_message
+#    if one_time_one_message: 
  
-    message_real_time = json.loads(message)
-    if message_real_time['id'] == for_name_email.get():
+   message_real_time = json.loads(message)
+   if message_real_time['id'] == for_name_email.get():
         my_chat_frame.insert('end', f"me => {message_real_time['message']}")
         my_chat_frame.itemconfigure(0, fg='white', bg='red')
+        one_time_one_message = True
         return
         # print("Matched")
-    else:
+   else:
         my_chat_frame.insert('end', f" {message_real_time['id']} => {message_real_time['message']}")
+        one_time_one_message = True
         # my_chat_frame.itemconfig(1, fg='white', bg='black')
         for i in range(my_chat_frame.size()):
           my_chat_frame.itemconfig(i, fg='white', bg='black')
-      
+
+#    else:
+    #   print("Message ALREADY SEND")  
   
 
     
@@ -68,44 +75,75 @@ my_chat_frame = ''
 def for_home():
    global track_the_homepage
    if track_the_homepage: 
+    # my_chat_frame.destroy()
+
+      my_chat_frame.place_forget()
+      scrollbar.destroy()
+      chat_box.destroy()
+      send_button.destroy()
+      send_entry.destroy()
+
+
+    # custom_font.des
+      print("I AM PRINTING....")
     
    
-    print("Home Starting")
-    if my_chat_frame:
-        my_chat_frame.pack_forget()
-        my_chat_frame.place_forget()
-        send_button.pack_forget()
-        send_entry.pack_forget()
-    else:
-        print('No pack')    
+      print("Home Starting")
+    #   if my_chat_frame:
+    #        my_chat_frame.destroy()
+    #        scrollbar.destroy()
+    #        chat_box.destroy()
+    #        send_button.destroy()
+    #        send_entry.destroy()
+
+    #   else:
+    #        print('No any pack')       
+        # my_chat_frame.pack_forget()
+        # my_chat_frame.place_forget()
+        # send_button.pack_forget()
+        # send_entry.pack_forget()
+        # send_button.destroy()
+        # send_entry.destroy()
+        # my_chat_frame.place_forget()
+    
+
+#  my_chat_frame, chat_box, scrollbar, custom_font
+
+
+
+
+
+    # else:
+        # print('No pack')    
     # my_chat_frame.pack_forget()
     # print(socketio.gethostname)
-    user_unique_id = for_name_email.get()
-    print(user_unique_id)
+      user_unique_id = for_name_email.get()
+      print(user_unique_id)
 
 
 
 
 
 
-    global ws
+      global ws
+      ws.close()
     # ws = websocket.WebSocket()
-    ws = websocket.WebSocketApp('ws://localhost:8000/ws/my_consumer/test_room/',    on_message = on_message, on_error = on_error, on_close = on_close)
+    #   ws = websocket.WebSocketApp('ws://localhost:8000/ws/my_consumer/test_room/',  on_message = on_message, on_error = on_error, on_close = on_close)
     # ws.connect("ws://localhost:8000/ws/my_consumer/test_room/")
-    ws.on_open = lambda _: print("Connection is open")
-    threading.Thread(target=ws.run_forever).start()
+    #   ws.on_open = lambda _: print("Connection is open")
+    #   threading.Thread(target=ws.run_forever).start()
    
 
 
    
-    print('Webscoket is Connected')
-    send_message = {
-        'id': user_unique_id,
-        'message': "Hello aaysh banset"
-    }
+    #   print('Webscoket is Connected')
+    #   send_message = {
+    #     'id': user_unique_id,
+    #     'message': "Hello aaysh banset"
+    # }
 
     # pause for 2sec
-    time.sleep(2)
+    #   time.sleep(2)
     # s = json.dumps(send_message)
     # ws.send(s)
 
@@ -145,18 +183,23 @@ def for_home():
 
     # else: 
         # print("There is no messge")    
-    global track_the_chatpage
-    track_the_homepage = False
-    track_the_chatpage = True
+    #   global track_the_chatpage
+      global my_name, track_the_chatpage
+      welcome_message.config(text="Chat WITH YOUR FRIENDS CAREFULLY. PLEASED NOTE! CHAT IN POPER MANNER", font=1000,background='blue', fg='white' , borderwidth=12, border=12  )
+      welcome_message.pack()
+      my_name = Label(text='AAaysh', width=12)
+      my_name.pack()
+      track_the_homepage = False
+      track_the_chatpage = True
    else:
     pass 
 
     
-    global my_name
-    welcome_message.config(text="Chat WITH YOUR FRIENDS CAREFULLY. PLEASED NOTE! CHAT IN POPER MANNER", font=1000,background='blue', fg='white' , borderwidth=12, border=12  )
-    welcome_message.pack()
-    my_name = Label(text='AAaysh', width=12)
-    my_name.pack()
+    #   global my_name
+    #   welcome_message.config(text="Chat WITH YOUR FRIENDS CAREFULLY. PLEASED NOTE! CHAT IN POPER MANNER", font=1000,background='blue', fg='white' , borderwidth=12, border=12  )
+    # welcome_message.pack()
+    # my_name = Label(text='AAaysh', width=12)
+    # my_name.pack()
     # print("Clciked")
 
      
@@ -165,8 +208,13 @@ def for_home():
 
 
 def for_chat():
-    global track_the_chatpage
+    global track_the_chatpage, track_the_homepage
     if track_the_chatpage:
+     track_the_chatpage = False
+     track_the_homepage = True
+
+     
+     
      print("I am running")
      # respons = session.get('http://localhost:8000/get_csrf_token/')
     # session = rq.Session()
@@ -221,25 +269,32 @@ def for_chat():
 
 
 
-
-     my_name.pack_forget()
-
+    # if my_name:
+    #    my_name.pack_forget()
+    # else:
+    #  print("There is no any Pack")   
+     
      def send_messages():
+       global one_time_one_message
+       if one_time_one_message:
       
-       my_message = send_entry.get()
-       id = for_name_email.get()
-       print("The message is this", my_message)
-       print('Starting the send_messssssssgae OKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK')
+        one_time_one_message = False
+      
+        my_message = send_entry.get()
+        id = for_name_email.get()
+        print("The message is this", my_message)
+        print('Starting the send_messssssssgae OKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK')
         
-       send_message = {
+        send_message = {
         'id': id,
         'message': my_message
     }
-       s = json.dumps(send_message)
+        s = json.dumps(send_message)
 
-       if send_message['message']:
+        if send_message['message']:
          ws.send(s)
-       else:
+        else:
+         print('Simply the tracker is false')
         return  
 
     #   send_entry.event_add
@@ -250,7 +305,7 @@ def for_chat():
     # my_chat = Label(text="Chat majaalya", width=12)
 
     # my_chat.pack()
-     global my_chat_frame, chat_box
+     global my_chat_frame, chat_box, scrollbar, custom_font
      scrollbar = tk.Scrollbar(root)
      scrollbar.pack(side="right", fill="y")
      custom_font = tk.font.Font(size=40)
@@ -258,12 +313,12 @@ def for_chat():
      my_chat_frame.place(x=300, y=150, height=550, width=950)
 
 
-     scrollbar = tk.Scrollbar(my_chat_frame)
+    #  scrollbar = tk.Scrollbar(my_chat_frame)
    
 
     # Create a Scrollbar widget and associate it with the Text widget
 
-     scrollbar.pack(fill=Y)
+    #  scrollbar.pack(fill=Y)
     # chat_box.config(yscrollcommand=scrollbar.set)
      chat_box = tk.Text(my_chat_frame, yscrollcommand=scrollbar.set)
 
@@ -298,9 +353,10 @@ def for_chat():
 
             else: 
                 return  
-     global  track_the_homepage     
+    #  global  track_the_homepage     
      track_the_chatpage = False
      track_the_homepage = True
+     print(track_the_chatpage)
 
 
 
